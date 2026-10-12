@@ -1,0 +1,20 @@
+name: Tests
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Backend tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Compile Python sources
+        run: python3 -m py_compile app.py backend.py install-local.py tests/run_keyd_tests.py
+      - name: Fetch pinned keyd test harness
+        run: |
+          git init .validation/keyd
+          git -C .validation/keyd fetch --depth 1 https://github.com/rvaiya/keyd.git f33dca879a3f871ee2e0fa9c1efd6e8dabb21ed3
+          git -C .validation/keyd checkout --detach FETCH_HEAD
+      - name: Verify keyboard input and output
+        run: python3 tests/run_keyd_tests.py .validation/keyd
