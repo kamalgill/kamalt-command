@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""A single-switch GNOME frontend for the Kamalt Command keyd profile."""
+"""A single-switch GNOME frontend for the kamalt-command keyd profile."""
 import json
 from pathlib import Path
 import subprocess
@@ -27,7 +27,7 @@ class KamaltCommand(Adw.Application):
         if self.get_active_window():
             self.get_active_window().present()
             return
-        self.window = Adw.ApplicationWindow(application=self, title='Kamalt Command',
+        self.window = Adw.ApplicationWindow(application=self, title='kamalt-command',
                                            default_width=460, default_height=660)
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         box.append(Adw.HeaderBar())
@@ -44,7 +44,7 @@ class KamaltCommand(Adw.Application):
         description.add_css_class('dim-label')
         content.append(description)
         group = Adw.PreferencesGroup()
-        self.row = Adw.ActionRow(title='Kamalt Command', subtitle='Off · normal keyboard shortcuts')
+        self.row = Adw.ActionRow(title='kamalt-command', subtitle='Off · normal keyboard shortcuts')
         self.switch = Gtk.Switch(valign=Gtk.Align.CENTER)
         self.switch.connect('state-set', self.toggle)
         self.row.add_suffix(self.switch)

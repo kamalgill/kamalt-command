@@ -1,4 +1,4 @@
-# Kamalt Command
+# kamalt-command
 
 A small GNOME app with one toggle: use the **left Alt key on a Windows keyboard
 like the Command key on a Mac** for common editing, navigation, and application
@@ -117,12 +117,12 @@ Both executable names are supported: Ubuntu/Debian's `keyd.rvaiya` and upstream'
 
 ## Install the Debian package (recommended for Ubuntu/Debian)
 
-Download `kamalt-command_0.1.0_all.deb` from
+Download `kamalt-command_0.1.1_all.deb` from
 [GitHub Releases](https://github.com/kamalgill/kamalt-command/releases/latest).
 From the directory containing the downloaded file:
 
 ```sh
-sudo apt install ./kamalt-command_0.1.0_all.deb
+sudo apt install ./kamalt-command_0.1.1_all.deb
 kamalt-command
 ```
 
@@ -140,7 +140,7 @@ isolated Ubuntu 26.04 container. Live desktop installation/removal across other
 Linux releases has not been certified.
 
 Installing the app does not automatically enable its remapping profile. Open
-**Kamalt Command**, turn the toggle on, and authenticate. If you already had an
+**kamalt-command**, turn the toggle on, and authenticate. If you already had an
 enabled source-install profile, that profile remains enabled. The package can
 manage the same existing profile.
 
@@ -225,9 +225,9 @@ environment, or pip installation is needed.
 The repository's visibility and your GitHub access determine whether cloning
 requires authentication.
 
-### 3. Open Kamalt Command
+### 3. Open kamalt-command
 
-Search for **Kamalt Command** in GNOME's application overview, or run:
+Search for **kamalt-command** in GNOME's application overview, or run:
 
 ```sh
 /usr/bin/python3 ~/.local/share/alt-command/app.py
@@ -291,7 +291,7 @@ The downloaded keyd package also installs its own executable and systemd unit.
 
 The backend refuses to enable alongside other `/etc/keyd/*.conf` profiles because
 competing device matches can prevent the intended mappings. It also refuses to
-overwrite a modified Kamalt Command profile. Known, exact prior versions of this
+overwrite a modified kamalt-command profile. Known, exact prior versions of this
 app's profile can be upgraded automatically.
 
 If you already use keyd, integrate the mappings deliberately into your existing
@@ -307,7 +307,7 @@ git pull --ff-only
 /usr/bin/python3 install-local.py
 ```
 
-Close and reopen Kamalt Command. If remapping is on, toggle it off and back on to
+Close and reopen kamalt-command. If remapping is on, toggle it off and back on to
 apply the update, completing the authentication prompts. If it is off, enable
 it once. The app refreshes the root-owned backend when it detects a new version.
 
@@ -459,9 +459,9 @@ commit timestamp. Generated packages and validation checkouts are ignored by Git
 Inspect or dry-run the local package:
 
 ```sh
-dpkg-deb --info dist/kamalt-command_0.1.0_all.deb
-dpkg-deb --contents dist/kamalt-command_0.1.0_all.deb
-apt-get -s install ./dist/kamalt-command_0.1.0_all.deb
+dpkg-deb --info dist/kamalt-command_0.1.1_all.deb
+dpkg-deb --contents dist/kamalt-command_0.1.1_all.deb
+apt-get -s install ./dist/kamalt-command_0.1.1_all.deb
 ```
 
 The `Debian release` GitHub Actions workflow runs for `v*` tags. It requires the
@@ -476,7 +476,7 @@ helps detect download corruption; it is not a package signature.
 With Docker available, you can repeat the isolated APT lifecycle check:
 
 ```sh
-sh scripts/test_deb.sh dist/kamalt-command_0.1.0_all.deb
+sh scripts/test_deb.sh dist/kamalt-command_0.1.1_all.deb
 ```
 
 The container checks dependency installation and removal with no enabled profile.
