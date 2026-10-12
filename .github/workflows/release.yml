@@ -1,0 +1,37 @@
+name: Debian release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check release version
+        run: test "$GITHUB_REF_NAME" = "v$(cat VERSION)"
+      - name: Backend and Debian package tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Fetch pinned keyd test harness
+        run: |
+          git init .validation/keyd
+          git -C .validation/keyd fetch --depth 1 https://github.com/rvaiya/keyd.git f33dca879a3f871ee2e0fa9c1efd6e8dabb21ed3
+          git -C .validation/keyd checkout --detach FETCH_HEAD
+      - name: Verify keyboard input and output
+        run: python3 tests/run_keyd_tests.py .validation/keyd
+      - name: Validate launcher
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y desktop-file-utils
+          desktop-file-validate packaging/kamalt-command.desktop
+      - name: Generate checksum
+        working-directory: dist
+        run: sha256sum kamalt-command_*.deb > SHA256SUMS
+      - name: Install and remove package in isolated Ubuntu
+        run: sh scripts/test_deb.sh dist/kamalt-command_$(cat VERSION)_all.deb
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/*.deb dist/SHA256SUMS --verify-tag --title "Kamalt Command $GITHUB_REF_NAME" --notes-file dist/RELEASE_NOTES.md

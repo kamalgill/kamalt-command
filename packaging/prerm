@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+# Keep the current profile enabled during upgrades. On removal, refuse to
+# silently discard a modified profile or continue after a failed reload.
+case "$1" in
+    remove|deconfigure)
+        if [ -e /etc/keyd/alt-command.conf ] || [ -L /etc/keyd/alt-command.conf ]; then
+            /usr/bin/python3 /usr/libexec/kamalt-command-backend disable
+        fi
+        ;;
+esac

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Kamalt Command
+Comment=Toggle Mac-style Alt shortcuts
+Exec=kamalt-command
+Icon=input-keyboard
+Terminal=false
+Categories=Utility;GTK;
+Keywords=Keyboard;Alt;Command;Copy;Paste;
+StartupNotify=true

@@ -11,7 +11,11 @@ import tempfile
 
 CONFIG_DIR = Path('/etc/keyd')
 CONFIG = CONFIG_DIR / 'alt-command.conf'
-INSTALLED = Path('/usr/local/libexec/alt-command-backend')
+PACKAGED = Path(__file__).resolve() in (
+    Path('/usr/share/kamalt-command/backend.py'),
+    Path('/usr/libexec/kamalt-command-backend'),
+)
+INSTALLED = Path('/usr/libexec/kamalt-command-backend') if PACKAGED else Path('/usr/local/libexec/alt-command-backend')
 PROFILE = '''# Managed by Alt Command
 [ids]
 *
@@ -131,6 +135,8 @@ def set_enabled(enabled):
 
 
 def setup(enabled=True):
+    if PACKAGED:
+        raise RuntimeError('This installation is managed by APT. Reinstall or update the kamalt-command package.')
     if keyd_binary() is None:
         if not Path('/usr/bin/apt-get').exists():
             raise RuntimeError('Install keyd using your distribution package manager first.')
