@@ -1,4 +1,4 @@
-# Alt Command
+# Kamalt Command
 
 A small GNOME app with one toggle: use the **left Alt key on a Windows keyboard
 like the Command key on a Mac** for common editing, navigation, and application
@@ -143,8 +143,8 @@ turning on the app. Do not substitute an unrelated similarly named package.
 ### 2. Clone and install the app launcher
 
 ```sh
-git clone https://github.com/kamalgill/kg-alt-command.git
-cd kg-alt-command
+git clone https://github.com/kamalgill/kamalt-command.git
+cd kamalt-command
 /usr/bin/python3 install-local.py
 ```
 
@@ -155,9 +155,9 @@ environment, or pip installation is needed.
 The repository's visibility and your GitHub access determine whether cloning
 requires authentication.
 
-### 3. Open Alt Command
+### 3. Open Kamalt Command
 
-Search for **Alt Command** in GNOME's application overview, or run:
+Search for **Kamalt Command** in GNOME's application overview, or run:
 
 ```sh
 /usr/bin/python3 ~/.local/share/alt-command/app.py
@@ -208,7 +208,7 @@ The downloaded keyd package also installs its own executable and systemd unit.
 
 The backend refuses to enable alongside other `/etc/keyd/*.conf` profiles because
 competing device matches can prevent the intended mappings. It also refuses to
-overwrite a modified Alt Command profile. Known, exact prior versions of this
+overwrite a modified Kamalt Command profile. Known, exact prior versions of this
 app's profile can be upgraded automatically.
 
 If you already use keyd, integrate the mappings deliberately into your existing
@@ -224,7 +224,7 @@ git pull --ff-only
 /usr/bin/python3 install-local.py
 ```
 
-Close and reopen Alt Command. If remapping is on, toggle it off and back on to
+Close and reopen Kamalt Command. If remapping is on, toggle it off and back on to
 apply the update, completing the authentication prompts. If it is off, enable
 it once. The app refreshes the root-owned backend when it detects a new version.
 

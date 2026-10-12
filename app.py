@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""A single-switch GNOME frontend for the Alt Command keyd profile."""
+"""A single-switch GNOME frontend for the Kamalt Command keyd profile."""
 import json
 from pathlib import Path
 import subprocess
@@ -13,7 +13,7 @@ from gi.repository import Adw, Gio, GLib, Gtk
 import backend
 
 
-class AltCommand(Adw.Application):
+class KamaltCommand(Adw.Application):
     def __init__(self):
         super().__init__(application_id='io.github.altcommand.App')
         self.connect('activate', self.activate)
@@ -27,7 +27,7 @@ class AltCommand(Adw.Application):
         if self.get_active_window():
             self.get_active_window().present()
             return
-        self.window = Adw.ApplicationWindow(application=self, title='Alt Command',
+        self.window = Adw.ApplicationWindow(application=self, title='Kamalt Command',
                                            default_width=460, default_height=660)
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         box.append(Adw.HeaderBar())
@@ -44,7 +44,7 @@ class AltCommand(Adw.Application):
         description.add_css_class('dim-label')
         content.append(description)
         group = Adw.PreferencesGroup()
-        self.row = Adw.ActionRow(title='Alt Command', subtitle='Off · normal keyboard shortcuts')
+        self.row = Adw.ActionRow(title='Kamalt Command', subtitle='Off · normal keyboard shortcuts')
         self.switch = Gtk.Switch(valign=Gtk.Align.CENTER)
         self.switch.connect('state-set', self.toggle)
         self.row.add_suffix(self.switch)
@@ -131,4 +131,4 @@ class AltCommand(Adw.Application):
 
 
 if __name__ == '__main__':
-    AltCommand().run()
+    KamaltCommand().run()

@@ -12,7 +12,7 @@ applications = Path.home() / '.local/share/applications'
 applications.mkdir(parents=True, exist_ok=True)
 (applications / 'io.github.altcommand.App.desktop').write_text(f'''[Desktop Entry]
 Type=Application
-Name=Alt Command
+Name=Kamalt Command
 Comment=Toggle Mac-style Alt shortcuts
 Exec=/usr/bin/python3 "{destination}/app.py"
 Icon=input-keyboard
@@ -21,4 +21,4 @@ Categories=Utility;GTK;
 Keywords=Keyboard;Alt;Command;Copy;Paste;
 StartupNotify=true
 ''')
-print(f'Installed Alt Command: {destination}')
+print(f'Installed Kamalt Command: {destination}')
