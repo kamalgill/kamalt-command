@@ -1,6 +1,6 @@
 # kamalt-command
 
-A small GNOME app with one toggle: use the **left Alt key on a Windows keyboard
+A small GNOME app with one toggle: use the **left Alt key on a Windows or Linux keyboard
 like the Command key on a Mac** for common editing, navigation, and application
 shortcuts.
 
@@ -122,12 +122,12 @@ Both executable names are supported: Ubuntu/Debian's `keyd.rvaiya` and upstream'
 
 ## Install the Debian package (recommended for Ubuntu/Debian)
 
-Download `kamalt-command_0.1.2_all.deb` from
+Download `kamalt-command_0.1.3_all.deb` from
 [GitHub Releases](https://github.com/kamalgill/kamalt-command/releases/latest).
 From the directory containing the downloaded file:
 
 ```sh
-sudo apt install ./kamalt-command_0.1.2_all.deb
+sudo apt install ./kamalt-command_0.1.3_all.deb
 kamalt-command
 ```
 
@@ -464,9 +464,9 @@ commit timestamp. Generated packages and validation checkouts are ignored by Git
 Inspect or dry-run the local package:
 
 ```sh
-dpkg-deb --info dist/kamalt-command_0.1.2_all.deb
-dpkg-deb --contents dist/kamalt-command_0.1.2_all.deb
-apt-get -s install ./dist/kamalt-command_0.1.2_all.deb
+dpkg-deb --info dist/kamalt-command_0.1.3_all.deb
+dpkg-deb --contents dist/kamalt-command_0.1.3_all.deb
+apt-get -s install ./dist/kamalt-command_0.1.3_all.deb
 ```
 
 The `Debian release` GitHub Actions workflow runs for `v*` tags. It requires the
@@ -481,7 +481,7 @@ helps detect download corruption; it is not a package signature.
 With Docker available, you can repeat the isolated APT lifecycle check:
 
 ```sh
-sh scripts/test_deb.sh dist/kamalt-command_0.1.2_all.deb
+sh scripts/test_deb.sh dist/kamalt-command_0.1.3_all.deb
 ```
 
 The container checks dependency installation and removal with no enabled profile.

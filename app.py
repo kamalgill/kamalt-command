@@ -39,7 +39,7 @@ class KamaltCommand(Adw.Application):
         title = Gtk.Label(label='Make Alt feel like Command')
         title.add_css_class('title-2')
         content.append(title)
-        description = Gtk.Label(label='Mac-style editing shortcuts on your Windows keyboard.',
+        description = Gtk.Label(label='Mac-style editing shortcuts on your Windows or Linux keyboard',
                                 wrap=True, justify=Gtk.Justification.CENTER)
         description.add_css_class('dim-label')
         content.append(description)
