@@ -125,12 +125,12 @@ Both executable names are supported: Ubuntu/Debian's `keyd.rvaiya` and upstream'
 This release uses the `kamalt-command` paths throughout. Earlier layouts are not
 migrated automatically; remove any previous installation before installing it.
 
-Download `kamalt-command_0.1.4_all.deb` from
+Download `kamalt-command_0.1.5_all.deb` from
 [GitHub Releases](https://github.com/kamalgill/kamalt-command/releases/latest).
 From the directory containing the downloaded file:
 
 ```sh
-sudo apt install ./kamalt-command_0.1.4_all.deb
+sudo apt install ./kamalt-command_0.1.5_all.deb
 kamalt-command
 ```
 
@@ -465,9 +465,9 @@ commit timestamp. Generated packages and validation checkouts are ignored by Git
 Inspect or dry-run the local package:
 
 ```sh
-dpkg-deb --info dist/kamalt-command_0.1.4_all.deb
-dpkg-deb --contents dist/kamalt-command_0.1.4_all.deb
-apt-get -s install ./dist/kamalt-command_0.1.4_all.deb
+dpkg-deb --info dist/kamalt-command_0.1.5_all.deb
+dpkg-deb --contents dist/kamalt-command_0.1.5_all.deb
+apt-get -s install ./dist/kamalt-command_0.1.5_all.deb
 ```
 
 The `Debian release` GitHub Actions workflow runs for `v*` tags. It requires the
@@ -482,7 +482,7 @@ helps detect download corruption; it is not a package signature.
 With Docker available, you can repeat the isolated APT lifecycle check:
 
 ```sh
-sh scripts/test_deb.sh dist/kamalt-command_0.1.4_all.deb
+sh scripts/test_deb.sh dist/kamalt-command_0.1.5_all.deb
 ```
 
 The container checks dependency installation and removal with no enabled profile.
