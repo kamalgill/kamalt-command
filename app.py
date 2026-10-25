@@ -59,6 +59,8 @@ class KamaltCommand(Adw.Application):
                                                ('Alt + W', 'Close window'), ('Alt + Q', 'Quit app'),
                                                ('Alt + ←', 'Go to start of line'),
                                                ('Alt + →', 'Go to end of line'),
+                                               ('Alt + ↑', 'Go to top of page'),
+                                               ('Alt + ↓', 'Go to bottom of page'),
                                                ('Alt + Shift + →', 'Select to end of line'),
                                                ('Alt + Shift + ←', 'Select to start of line'))):
             key = Gtk.Label(label=keys, xalign=0)

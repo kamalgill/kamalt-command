@@ -26,6 +26,8 @@ All shortcuts below use **left Alt**. Right Alt remains available for AltGr.
 | Alt+Q | Ctrl+Q | Quit the application, where supported |
 | Alt+Left | Home | Move to the beginning of the current line |
 | Alt+Right | End | Move to the end of the current line |
+| Alt+Up | Ctrl+Home | Move to the top of the page/document |
+| Alt+Down | Ctrl+End | Move to the bottom of the page/document |
 | Alt+Shift+Left | Shift+Home | Select from the cursor to the beginning of the line |
 | Alt+Shift+Right | Shift+End | Select from the cursor to the end of the line |
 
@@ -46,6 +48,9 @@ Alt+F4. The physical Ctrl and Windows/Super keys retain their usual functions.
   keys emit Home/End in every application.
 - **Home/End behavior depends on the editor.** Some editors move Home to the
   first non-whitespace character; wrapped-line behavior may also differ.
+- **Alt+Up/Down use Ctrl+Home/End.** Browsers generally scroll to the top/bottom;
+  editors move the cursor to the beginning/end of the document. This replaces
+  existing Alt+Up/Down actions such as navigating to a parent folder.
 - **Terminals use different bindings.** Alt+C emits Ctrl+C, which usually
   interrupts a process. Use Alt+Shift+C/V for terminal copy/paste. Other mappings,
   such as Alt+Q or Alt+S, also follow the terminal's Ctrl-key behavior.
@@ -117,12 +122,12 @@ Both executable names are supported: Ubuntu/Debian's `keyd.rvaiya` and upstream'
 
 ## Install the Debian package (recommended for Ubuntu/Debian)
 
-Download `kamalt-command_0.1.1_all.deb` from
+Download `kamalt-command_0.1.2_all.deb` from
 [GitHub Releases](https://github.com/kamalgill/kamalt-command/releases/latest).
 From the directory containing the downloaded file:
 
 ```sh
-sudo apt install ./kamalt-command_0.1.1_all.deb
+sudo apt install ./kamalt-command_0.1.2_all.deb
 kamalt-command
 ```
 
@@ -436,7 +441,7 @@ If the checkout already exists, reuse it instead of cloning again. GitHub Action
 runs the backend tests, Python compilation checks, and all keyboard fixtures
 against keyd v2.5.0 commit `f33dca879a3f871ee2e0fa9c1efd6e8dabb21ed3`.
 
-The suite currently contains **14 backend tests, 4 packaging tests, and 20 input/output fixtures**.
+The suite currently contains **14 backend tests, 4 packaging tests, and 22 input/output fixtures**.
 It covers remapping, modifier handling, unchanged Alt+Tab/AltGr, prior-profile
 upgrades, executable discovery, rollback, package contents, and removal behavior. These checks do not
 install a daemon or change keyboard input. The GUI and authentication cancellation
@@ -459,9 +464,9 @@ commit timestamp. Generated packages and validation checkouts are ignored by Git
 Inspect or dry-run the local package:
 
 ```sh
-dpkg-deb --info dist/kamalt-command_0.1.1_all.deb
-dpkg-deb --contents dist/kamalt-command_0.1.1_all.deb
-apt-get -s install ./dist/kamalt-command_0.1.1_all.deb
+dpkg-deb --info dist/kamalt-command_0.1.2_all.deb
+dpkg-deb --contents dist/kamalt-command_0.1.2_all.deb
+apt-get -s install ./dist/kamalt-command_0.1.2_all.deb
 ```
 
 The `Debian release` GitHub Actions workflow runs for `v*` tags. It requires the
@@ -476,7 +481,7 @@ helps detect download corruption; it is not a package signature.
 With Docker available, you can repeat the isolated APT lifecycle check:
 
 ```sh
-sh scripts/test_deb.sh dist/kamalt-command_0.1.1_all.deb
+sh scripts/test_deb.sh dist/kamalt-command_0.1.2_all.deb
 ```
 
 The container checks dependency installation and removal with no enabled profile.

@@ -35,6 +35,8 @@ w = A-f4
 q = C-q
 left = home
 right = end
+up = C-home
+down = C-end
 
 [shift]
 
@@ -44,9 +46,10 @@ left = S-home
 z = C-S-z
 '''
 # Exact previous app profiles; accept them for upgrades, but preserve custom edits.
-PREVIOUS_PROFILE = PROFILE.replace('left = home\nright = end\n', '')
-EDITING_PROFILE = PREVIOUS_PROFILE.replace('w = A-f4\nq = C-q\n', '')
-LEGACY_PROFILES = (PREVIOUS_PROFILE, EDITING_PROFILE,
+PREVIOUS_PROFILE = PROFILE.replace('up = C-home\ndown = C-end\n', '')
+LINE_PROFILE = PREVIOUS_PROFILE.replace('left = home\nright = end\n', '')
+EDITING_PROFILE = LINE_PROFILE.replace('w = A-f4\nq = C-q\n', '')
+LEGACY_PROFILES = (PREVIOUS_PROFILE, LINE_PROFILE, EDITING_PROFILE,
                   EDITING_PROFILE.replace('x = C-x\na = C-a\nz = C-z\nf = C-f\ns = C-s\n', '')
                   .replace('z = C-S-z\n', ''))
 
