@@ -16,7 +16,7 @@ def main():
     source = Path(sys.argv[1]).resolve()
     files = ['t/test-io.c', 'src/keyboard.c', 'src/string.c', 'src/macro.c',
              'src/config.c', 'src/log.c', 'src/ini.c', 'src/keys.c', 'src/unicode.c']
-    with tempfile.TemporaryDirectory(prefix='alt-command-tests-') as directory:
+    with tempfile.TemporaryDirectory(prefix='kamalt-command-tests-') as directory:
         binary = Path(directory) / 'test-io'
         config = Path(directory) / 'profile.conf'
         config.write_text(backend.PROFILE)

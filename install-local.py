@@ -4,13 +4,13 @@ from pathlib import Path
 import shutil
 
 source = Path(__file__).resolve().parent
-destination = Path.home() / '.local/share/alt-command'
+destination = Path.home() / '.local/share/kamalt-command'
 destination.mkdir(parents=True, exist_ok=True)
 for name in ('app.py', 'backend.py'):
     shutil.copyfile(source / name, destination / name)
 applications = Path.home() / '.local/share/applications'
 applications.mkdir(parents=True, exist_ok=True)
-(applications / 'io.github.altcommand.App.desktop').write_text(f'''[Desktop Entry]
+(applications / 'io.github.kamaltcommand.App.desktop').write_text(f'''[Desktop Entry]
 Type=Application
 Name=kamalt-command
 Comment=Toggle Mac-style Alt shortcuts

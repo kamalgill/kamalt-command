@@ -122,12 +122,15 @@ Both executable names are supported: Ubuntu/Debian's `keyd.rvaiya` and upstream'
 
 ## Install the Debian package (recommended for Ubuntu/Debian)
 
-Download `kamalt-command_0.1.3_all.deb` from
+This release uses the `kamalt-command` paths throughout. Earlier layouts are not
+migrated automatically; remove any previous installation before installing it.
+
+Download `kamalt-command_0.1.4_all.deb` from
 [GitHub Releases](https://github.com/kamalgill/kamalt-command/releases/latest).
 From the directory containing the downloaded file:
 
 ```sh
-sudo apt install ./kamalt-command_0.1.3_all.deb
+sudo apt install ./kamalt-command_0.1.4_all.deb
 kamalt-command
 ```
 
@@ -156,7 +159,7 @@ the package's launcher. Remove the old launcher's desktop file to use the packag
 app from GNOME search:
 
 ```sh
-rm -f ~/.local/share/applications/io.github.altcommand.App.desktop
+rm -f ~/.local/share/applications/io.github.kamaltcommand.App.desktop
 kamalt-command
 ```
 
@@ -164,11 +167,11 @@ After confirming the packaged app works, you can remove the old per-user files
 and source-install backend:
 
 ```sh
-rm -r ~/.local/share/alt-command
-sudo rm -f /usr/local/libexec/alt-command-backend
+rm -r ~/.local/share/kamalt-command
+sudo rm -f /usr/local/libexec/kamalt-command-backend
 ```
 
-Keep `/etc/keyd/alt-command.conf`; both installation methods use it. There is no
+Keep `/etc/keyd/kamalt-command.conf`; both installation methods use it. There is no
 need to delete your cloned source repository.
 
 ### Package updates and removal
@@ -235,7 +238,7 @@ requires authentication.
 Search for **kamalt-command** in GNOME's application overview, or run:
 
 ```sh
-/usr/bin/python3 ~/.local/share/alt-command/app.py
+/usr/bin/python3 ~/.local/share/kamalt-command/app.py
 ```
 
 Use `/usr/bin/python3` rather than a pyenv or virtual-environment interpreter,
@@ -247,7 +250,7 @@ Complete the administrator authentication prompt. First-time setup:
 
 1. Installs the distribution's keyd package on apt-based systems if needed.
 2. Installs a root-owned backend in `/usr/local/libexec`.
-3. Writes the fixed keyboard profile to `/etc/keyd/alt-command.conf`.
+3. Writes the fixed keyboard profile to `/etc/keyd/kamalt-command.conf`.
 4. Enables and starts `keyd.service`, then reloads the profile.
 
 No logout is required. Try the shortcuts in a text editor. Closing the app window
@@ -273,10 +276,10 @@ keyd installed and its service enabled for possible other uses.
 | --- | --- |
 | `/usr/bin/kamalt-command` | Command-line launcher |
 | `/usr/share/kamalt-command/` | App and backend status logic |
-| `/usr/share/applications/io.github.altcommand.App.desktop` | System application launcher |
+| `/usr/share/applications/io.github.kamaltcommand.App.desktop` | System application launcher |
 | `/usr/libexec/kamalt-command-backend` | Package-owned privileged backend |
 | `/usr/share/doc/kamalt-command/README.md` | Installed documentation |
-| `/etc/keyd/alt-command.conf` | Shared managed profile, created only when enabled |
+| `/etc/keyd/kamalt-command.conf` | Shared managed profile, created only when enabled |
 
 APT owns and updates the packaged backend; the app does not replace it itself.
 
@@ -284,11 +287,11 @@ APT owns and updates the packaged backend; the app does not replace it itself.
 
 | Path | Purpose |
 | --- | --- |
-| `~/.local/share/alt-command/app.py` | GNOME interface |
-| `~/.local/share/alt-command/backend.py` | Setup source and status logic |
-| `~/.local/share/applications/io.github.altcommand.App.desktop` | Application launcher |
-| `/usr/local/libexec/alt-command-backend` | Root-owned privileged backend |
-| `/etc/keyd/alt-command.conf` | Enabled keyboard profile; removed when disabled |
+| `~/.local/share/kamalt-command/app.py` | GNOME interface |
+| `~/.local/share/kamalt-command/backend.py` | Setup source and status logic |
+| `~/.local/share/applications/io.github.kamaltcommand.App.desktop` | Application launcher |
+| `/usr/local/libexec/kamalt-command-backend` | Root-owned privileged backend |
+| `/etc/keyd/kamalt-command.conf` | Enabled keyboard profile; removed when disabled |
 
 The downloaded keyd package also installs its own executable and systemd unit.
 
@@ -296,8 +299,7 @@ The downloaded keyd package also installs its own executable and systemd unit.
 
 The backend refuses to enable alongside other `/etc/keyd/*.conf` profiles because
 competing device matches can prevent the intended mappings. It also refuses to
-overwrite a modified kamalt-command profile. Known, exact prior versions of this
-app's profile can be upgraded automatically.
+overwrite a modified kamalt-command profile.
 
 If you already use keyd, integrate the mappings deliberately into your existing
 setup. Other tools that grab keyboard devices, such as input-remapper, can also
@@ -352,8 +354,8 @@ Inspect the service, logs, and saved profile:
 ```sh
 systemctl status keyd --no-pager
 journalctl -u keyd -n 50 --no-pager
-cat /etc/keyd/alt-command.conf
-/usr/bin/python3 ~/.local/share/alt-command/backend.py status
+cat /etc/keyd/kamalt-command.conf
+/usr/bin/python3 ~/.local/share/kamalt-command/backend.py status
 ```
 
 If journal access is restricted, use `sudo journalctl`. A successful status reports
@@ -386,7 +388,7 @@ persistently, use the toggle or the installed backend:
 # Debian package:
 sudo /usr/bin/python3 /usr/libexec/kamalt-command-backend disable
 # Source installation instead:
-# sudo /usr/bin/python3 /usr/local/libexec/alt-command-backend disable
+# sudo /usr/bin/python3 /usr/local/libexec/kamalt-command-backend disable
 ```
 
 ## Uninstalling a source installation
@@ -395,16 +397,16 @@ Turn remapping off first, then close the app. Alternatively, run the backend's
 `disable` command above. Remove only the app's installed files:
 
 ```sh
-rm -r ~/.local/share/alt-command
-rm ~/.local/share/applications/io.github.altcommand.App.desktop
-sudo rm /usr/local/libexec/alt-command-backend
+rm -r ~/.local/share/kamalt-command
+rm ~/.local/share/applications/io.github.kamaltcommand.App.desktop
+sudo rm /usr/local/libexec/kamalt-command-backend
 ```
 
 If the backend is unavailable, remove the managed profile and reload keyd using
 the executable installed on your system:
 
 ```sh
-sudo rm /etc/keyd/alt-command.conf
+sudo rm /etc/keyd/kamalt-command.conf
 sudo keyd.rvaiya reload   # Ubuntu/Debian executable name
 # Or: sudo keyd reload   # Upstream executable name
 ```
@@ -441,9 +443,8 @@ If the checkout already exists, reuse it instead of cloning again. GitHub Action
 runs the backend tests, Python compilation checks, and all keyboard fixtures
 against keyd v2.5.0 commit `f33dca879a3f871ee2e0fa9c1efd6e8dabb21ed3`.
 
-The suite currently contains **14 backend tests, 4 packaging tests, and 22 input/output fixtures**.
-It covers remapping, modifier handling, unchanged Alt+Tab/AltGr, prior-profile
-upgrades, executable discovery, rollback, package contents, and removal behavior. These checks do not
+The suite currently contains **12 backend tests, 5 packaging/source-install tests, and 22 input/output fixtures**.
+It covers remapping, modifier handling, unchanged Alt+Tab/AltGr, executable discovery, rollback, package contents, and removal behavior. These checks do not
 install a daemon or change keyboard input. The GUI and authentication cancellation
 were also exercised locally; application-specific behavior needs manual checking
 in the target applications.
@@ -464,9 +465,9 @@ commit timestamp. Generated packages and validation checkouts are ignored by Git
 Inspect or dry-run the local package:
 
 ```sh
-dpkg-deb --info dist/kamalt-command_0.1.3_all.deb
-dpkg-deb --contents dist/kamalt-command_0.1.3_all.deb
-apt-get -s install ./dist/kamalt-command_0.1.3_all.deb
+dpkg-deb --info dist/kamalt-command_0.1.4_all.deb
+dpkg-deb --contents dist/kamalt-command_0.1.4_all.deb
+apt-get -s install ./dist/kamalt-command_0.1.4_all.deb
 ```
 
 The `Debian release` GitHub Actions workflow runs for `v*` tags. It requires the
@@ -481,7 +482,7 @@ helps detect download corruption; it is not a package signature.
 With Docker available, you can repeat the isolated APT lifecycle check:
 
 ```sh
-sh scripts/test_deb.sh dist/kamalt-command_0.1.3_all.deb
+sh scripts/test_deb.sh dist/kamalt-command_0.1.4_all.deb
 ```
 
 The container checks dependency installation and removal with no enabled profile.

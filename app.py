@@ -15,7 +15,7 @@ import backend
 
 class KamaltCommand(Adw.Application):
     def __init__(self):
-        super().__init__(application_id='io.github.altcommand.App')
+        super().__init__(application_id='io.github.kamaltcommand.App')
         self.connect('activate', self.activate)
         self.busy = False
         quit_action = Gio.SimpleAction.new('quit', None)

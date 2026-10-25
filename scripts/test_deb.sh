@@ -13,7 +13,7 @@ apt-get install -y -o 'Dpkg::Options::=--path-include=/usr/share/doc/kamalt-comm
 dpkg-query -W kamalt-command
 dpkg --verify kamalt-command
 /usr/bin/python3 /usr/share/kamalt-command/backend.py status
-test ! -e /etc/keyd/alt-command.conf
+test ! -e /etc/keyd/kamalt-command.conf
 apt-get remove -y kamalt-command >>/tmp/package-test.log 2>&1
 test ! -e /usr/bin/kamalt-command
 test ! -e /usr/libexec/kamalt-command-backend

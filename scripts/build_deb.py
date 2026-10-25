@@ -45,7 +45,7 @@ Description: GNOME toggle for Mac-style Alt keyboard shortcuts
             write(f'usr/share/kamalt-command/{name}', (ROOT / name).read_text())
         write('usr/libexec/kamalt-command-backend', (ROOT / 'backend.py').read_text(), 0o755)
         write('usr/bin/kamalt-command', '#!/bin/sh\nexec /usr/bin/python3 /usr/share/kamalt-command/app.py "$@"\n', 0o755)
-        write('usr/share/applications/io.github.altcommand.App.desktop',
+        write('usr/share/applications/io.github.kamaltcommand.App.desktop',
               (ROOT / 'packaging/kamalt-command.desktop').read_text())
         write('usr/share/doc/kamalt-command/README.md', (ROOT / 'README.md').read_text())
         changelog = stage / 'usr/share/doc/kamalt-command/changelog.gz'
@@ -71,8 +71,11 @@ APT installs keyd and the GUI dependencies from your configured repositories.
 Remapping is not automatically enabled; turn on the app toggle and complete the administrator prompt.
 The package is architecture-independent (`all`); dependencies must be available for your system.
 
+This release uses `kamalt-command` installation paths and the `io.github.kamaltcommand.App` application ID.
+For releases using earlier installation layouts, uninstall the previous version first. No migration is performed.
+
 See the [README](https://github.com/kamalgill/kamalt-command#readme) for all mappings, requirements,
-source-install migration, recovery, and removal instructions. SHA256SUMS contains the package checksum.
+source installation, recovery, and removal instructions. SHA256SUMS contains the package checksum.
 
 Packaging is validated by archive extraction, backend tests, and simulated removal/upgrade checks.
 Live apt installation and desktop behavior are not certified on every Ubuntu/Debian version.

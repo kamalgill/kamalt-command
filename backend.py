@@ -10,13 +10,13 @@ import sys
 import tempfile
 
 CONFIG_DIR = Path('/etc/keyd')
-CONFIG = CONFIG_DIR / 'alt-command.conf'
+CONFIG = CONFIG_DIR / 'kamalt-command.conf'
 PACKAGED = Path(__file__).resolve() in (
     Path('/usr/share/kamalt-command/backend.py'),
     Path('/usr/libexec/kamalt-command-backend'),
 )
-INSTALLED = Path('/usr/libexec/kamalt-command-backend') if PACKAGED else Path('/usr/local/libexec/alt-command-backend')
-PROFILE = '''# Managed by Alt Command
+INSTALLED = Path('/usr/libexec/kamalt-command-backend') if PACKAGED else Path('/usr/local/libexec/kamalt-command-backend')
+PROFILE = '''# Managed by kamalt-command
 [ids]
 *
 
@@ -45,13 +45,6 @@ right = S-end
 left = S-home
 z = C-S-z
 '''
-# Exact previous app profiles; accept them for upgrades, but preserve custom edits.
-PREVIOUS_PROFILE = PROFILE.replace('up = C-home\ndown = C-end\n', '')
-LINE_PROFILE = PREVIOUS_PROFILE.replace('left = home\nright = end\n', '')
-EDITING_PROFILE = LINE_PROFILE.replace('w = A-f4\nq = C-q\n', '')
-LEGACY_PROFILES = (PREVIOUS_PROFILE, LINE_PROFILE, EDITING_PROFILE,
-                  EDITING_PROFILE.replace('x = C-x\na = C-a\nz = C-z\nf = C-f\ns = C-s\n', '')
-                  .replace('z = C-S-z\n', ''))
 
 
 def keyd_binary():
@@ -85,14 +78,14 @@ def active():
 
 
 def status():
-    configured = CONFIG.is_file() and CONFIG.read_text() in (PROFILE, *LEGACY_PROFILES)
+    configured = CONFIG.is_file() and CONFIG.read_text() == PROFILE
     return {'installed': (INSTALLED.is_file() and keyd_binary() is not None and
                           INSTALLED.read_text() == Path(__file__).read_text()),
             'configured': configured, 'enabled': configured and active()}
 
 
 def atomic_write(path, data):
-    fd, temporary = tempfile.mkstemp(prefix='.alt-command-', dir=path.parent)
+    fd, temporary = tempfile.mkstemp(prefix='.kamalt-command-', dir=path.parent)
     try:
         with os.fdopen(fd, 'w') as stream:
             stream.write(data)
@@ -108,14 +101,14 @@ def atomic_write(path, data):
 def set_enabled(enabled):
     executable = require_keyd()
     CONFIG_DIR.mkdir(mode=0o755, exist_ok=True)
-    if CONFIG.is_symlink() or (CONFIG.exists() and CONFIG.read_text() not in (PROFILE, *LEGACY_PROFILES)):
-        raise RuntimeError('The Alt Command config has been modified. Resolve it in /etc/keyd before toggling.')
+    if CONFIG.is_symlink() or (CONFIG.exists() and CONFIG.read_text() != PROFILE):
+        raise RuntimeError('The kamalt-command config has been modified. Resolve it in /etc/keyd before toggling.')
     if enabled:
         others = list(CONFIG_DIR.glob('*.conf'))
         others = [p.name for p in others if p != CONFIG]
         if others:
             raise RuntimeError('Existing keyd profiles may conflict: ' + ', '.join(others) +
-                               '. Integrate them before enabling Alt Command.')
+                               '. Integrate them before enabling kamalt-command.')
     previous = CONFIG.read_text() if CONFIG.exists() else None
     try:
         if enabled:
@@ -162,7 +155,7 @@ def main():
     if os.geteuid() != 0:
         raise RuntimeError('Administrator authentication is required.')
     os.environ['PATH'] = '/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin'
-    with open('/run/alt-command.lock', 'w') as lock:
+    with open('/run/kamalt-command.lock', 'w') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
         if operation in ('setup', 'setup-disable'):
             setup(operation == 'setup')

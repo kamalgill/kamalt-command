@@ -33,8 +33,12 @@ class PackagingTests(unittest.TestCase):
                          (ROOT / 'backend.py').read_text())
         for name in ('usr/bin/kamalt-command', 'usr/libexec/kamalt-command-backend', 'DEBIAN/prerm'):
             self.assertTrue((self.extracted / name).stat().st_mode & 0o111)
-        self.assertFalse((self.extracted / 'etc/keyd/alt-command.conf').exists())
+        self.assertFalse((self.extracted / 'etc/keyd/kamalt-command.conf').exists())
         self.assertFalse((self.extracted / 'DEBIAN/postinst').exists())
+        launchers = self.extracted / 'usr/share/applications'
+        self.assertEqual([p.name for p in launchers.iterdir()], ['io.github.kamaltcommand.App.desktop'])
+        self.assertIn("application_id='io.github.kamaltcommand.App'",
+                      (self.extracted / 'usr/share/kamalt-command/app.py').read_text())
 
     def test_removal_disables_but_upgrade_preserves_profile(self):
         self.check_removal_script('remove', expected_calls='disable\n')
@@ -65,12 +69,25 @@ class PackagingTests(unittest.TestCase):
                             f'Path({str(calls)!r}).write_text(sys.argv[1] + "\\n")\n'
                             f'sys.exit({1 if failure else 0})\n')
             script = (self.extracted / 'DEBIAN/prerm').read_text().replace(
-                '/etc/keyd/alt-command.conf', str(config)).replace(
+                '/etc/keyd/kamalt-command.conf', str(config)).replace(
                 '/usr/libexec/kamalt-command-backend', str(fake))
             result = subprocess.run(['/bin/sh', '-s', '--', operation], input=script,
                                     text=True, capture_output=True)
             self.assertEqual(result.returncode, 1 if failure else 0)
             self.assertEqual(calls.read_text() if calls.exists() else '', expected_calls)
+
+
+class SourceInstallTests(unittest.TestCase):
+    def test_source_installer_uses_current_paths_and_launcher(self):
+        import os
+        with tempfile.TemporaryDirectory() as directory:
+            subprocess.run([sys.executable, str(ROOT / 'install-local.py')],
+                           env={**os.environ, 'HOME': directory}, check=True, capture_output=True)
+            share = Path(directory) / '.local/share'
+            self.assertEqual(sorted(p.name for p in share.iterdir()), ['applications', 'kamalt-command'])
+            launchers = list((share / 'applications').iterdir())
+            self.assertEqual([p.name for p in launchers], ['io.github.kamaltcommand.App.desktop'])
+            self.assertIn(str(share / 'kamalt-command/app.py'), launchers[0].read_text())
 
 
 if __name__ == '__main__':

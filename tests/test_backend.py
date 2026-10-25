@@ -12,7 +12,7 @@ class BackendTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.directory = Path(self.temp.name)
-        self.config = self.directory / 'alt-command.conf'
+        self.config = self.directory / 'kamalt-command.conf'
         self.patches = [patch.object(backend, 'CONFIG_DIR', self.directory),
                         patch.object(backend, 'CONFIG', self.config),
                         patch.object(backend, 'active', return_value=True),
@@ -99,20 +99,6 @@ class BackendTests(unittest.TestCase):
             self.assertFalse(backend.status()['installed'])
             installed.write_text(Path(backend.__file__).read_text())
             self.assertTrue(backend.status()['installed'])
-
-    def test_previous_app_profile_can_be_upgraded(self):
-        self.config.write_text(backend.LEGACY_PROFILES[0])
-        self.assertTrue(backend.status()['enabled'])
-        backend.set_enabled(True)
-        self.assertEqual(self.config.read_text(), backend.PROFILE)
-
-    def test_failed_upgrade_restores_previous_profile(self):
-        previous = backend.LEGACY_PROFILES[0]
-        self.config.write_text(previous)
-        self.mocks[3].side_effect = [None, RuntimeError('reload failed'), None]
-        with self.assertRaisesRegex(RuntimeError, 'reload failed'):
-            backend.set_enabled(True)
-        self.assertEqual(self.config.read_text(), previous)
 
     def test_setup_disable_preserves_requested_off_state(self):
         with patch.object(backend, 'set_enabled') as set_enabled, \
